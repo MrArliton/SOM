@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = Constants.width;
 		config.height = Constants.heigth;
-		new LwjglApplication(new main(), config);
+        System.setProperty("user.name","\\u0410\\u0434\\u043c\\u0438\\u043d");
+        new LwjglApplication(new main(), config);
 	}
 }
