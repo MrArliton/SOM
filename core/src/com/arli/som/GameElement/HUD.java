@@ -4,16 +4,18 @@ import com.arli.som.Constants;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class HUD {
     OrthographicCamera cameraHUD;
-    Viewport view = new FitViewport(Constants.width,Constants.heigth);
+    Viewport view = new ScreenViewport();
     MapCon controll;
 
     public HUD(MapCon conM) {
     cameraHUD = new OrthographicCamera(Constants.width/2,Constants.heigth/2);
     cameraHUD.setToOrtho(false,Constants.width,Constants.heigth);
+    view.setCamera(cameraHUD);
         controll = conM;
 
     }

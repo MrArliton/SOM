@@ -7,15 +7,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class MAP { // Карта
     // Тут  обрабатываем все изменения в карте
-    OrthographicCamera cameraMap;
-    String test = "1,1,2;1,4,2";
+   public OrthographicCamera cameraMap;
+    String test = "30,2,15;1,4,2";
     Array<Cell> cells = new Array<Cell>();
-    Viewport view = new FitViewport(Constants.width,Constants.heigth);
+   public Viewport view = new ScreenViewport();
     public MAP(String mapPath) { // Тут Получаем карту в txt формате
         cameraMap = new OrthographicCamera(Constants.width,Constants.heigth);
         cameraMap.setToOrtho(false,Constants.width,Constants.heigth);
@@ -32,14 +34,14 @@ public class MAP { // Карта
             for(int o = 0;o<Integer.parseInt(buffer[i].split(",")[2]);o++){
                 if(Integer.parseInt(buffer[i].split(",")[1])%2!=0)
                 if(o%2==0)
-                cells.add(new Cell(buff1,30+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH/Constants.cellDvigY+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(new Texture("MAP/cell_defaut.png"))));
+                cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH/Constants.cellDvigY+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(new Texture("MAP/cell_defaut.png"))));
             else
-                    cells.add(new Cell(buff1,30+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(new Texture("MAP/cell_defaut.png"))));
+                    cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(new Texture("MAP/cell_defaut.png"))));
                 else
                 if(o%2!=0)
-                    cells.add(new Cell(buff1,30+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH/Constants.cellDvigY+Constants.cellH*i,Constants.cellW,Constants.cellH,new Sprite(new Texture("MAP/cell_defaut.png"))));
+                    cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH/Constants.cellDvigY+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(new Texture("MAP/cell_defaut.png"))));
                 else
-                    cells.add(new Cell(buff1,30+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(new Texture("MAP/cell_defaut.png"))));
+                    cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(new Texture("MAP/cell_defaut.png"))));
                 buff1+=1;
             }
 
