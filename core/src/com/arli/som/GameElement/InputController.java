@@ -54,15 +54,6 @@ public class InputController implements GestureDetector.GestureListener { // Ð˜Ð
         map.cameraMap.translate((int)(-deltaX * scaleX), 0);
         map.cameraMap.translate(0, (int)(deltaY * scaleY));
         map.cameraMap.update();
-        Vector2 min = new Vector2(map.cameraMap.viewportWidth-map.cameraMap.viewportWidth+Constants.width,map.cameraMap.viewportHeight);
-        min.scl(map.cameraMap.zoom/2);
-        Vector2 max = new Vector2(Constants.width,Constants.heigth);
-        max.sub(min);
-        x = Math.min(max.x, Math.max(map.cameraMap.position.x, min.x));
-        y = Math.min(max.y, Math.max(map.cameraMap.position.y, min.y));
-
-        map.cameraMap.position.set(x,y,0);
-        map.cameraMap.update();
         return false;
     }
 

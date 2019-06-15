@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FillViewport;
@@ -58,7 +59,17 @@ public class MAP { // Карта
         }
     }
 
-    public void update(float delta){}
+    public void update(float delta){
+        Vector2 min = new Vector2(cameraMap.viewportWidth-cameraMap.viewportWidth+Constants.width,cameraMap.viewportHeight);
+        min.scl(cameraMap.zoom/2);
+        Vector2 max = new Vector2(Constants.width,Constants.heigth);
+        max.sub(min);
+        float x = Math.min(max.x, Math.max(cameraMap.position.x, min.x));
+        float y = Math.min(max.y, Math.max(cameraMap.position.y, min.y));
+
+        cameraMap.position.set(x,y,0);
+        cameraMap.update();
+    }
 
 
     public void resize(int width,int height){
@@ -66,10 +77,9 @@ public class MAP { // Карта
         view.apply();
     }
     public void setZoom(float initialDistance, float distance){ // Устанавливает зоом
-           float a = (initialDistance/distance)/4;
+           float a = initialDistance/distance - 1f + cameraMap.zoom;
+           a = Math.max(0.3f,Math.min(a,1f));
            cameraMap.zoom=a;
-           if(cameraMap.zoom>2){cameraMap.zoom=2f;}
-           if(cameraMap.zoom<0.4f){cameraMap.zoom=0.6f;}
            cameraMap.update();
     }
     public void dispose(){
