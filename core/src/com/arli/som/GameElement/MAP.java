@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -23,9 +24,9 @@ public class MAP { // Карта
         cameraMap.setToOrtho(false,Constants.width,Constants.heigth);
 
         view.setCamera(cameraMap);
-        view.apply();
 
         generateCells(test); // Текст из txt
+        cameraMap.zoom = 0.8f;
     }
     public void generateCells(String map){ // генерируем карту
         String[] buffer = map.split(";");
@@ -34,14 +35,14 @@ public class MAP { // Карта
             for(int o = 0;o<Integer.parseInt(buffer[i].split(",")[2]);o++){
                 if(Integer.parseInt(buffer[i].split(",")[1])%2!=0)
                 if(o%2==0)
-                cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH/Constants.cellDvigY+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(new Texture("MAP/cell_defaut.png"))));
+                cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,50+Constants.cellH/Constants.cellDvigY+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(new Texture("MAP/cell_defaut.png"))));
             else
-                    cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(new Texture("MAP/cell_defaut.png"))));
+                    cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,50+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(new Texture("MAP/cell_defaut.png"))));
                 else
                 if(o%2!=0)
-                    cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH/Constants.cellDvigY+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(new Texture("MAP/cell_defaut.png"))));
+                    cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,50+Constants.cellH/Constants.cellDvigY+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(new Texture("MAP/cell_defaut.png"))));
                 else
-                    cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(new Texture("MAP/cell_defaut.png"))));
+                    cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,50+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(new Texture("MAP/cell_defaut.png"))));
                 buff1+=1;
             }
 
@@ -65,7 +66,11 @@ public class MAP { // Карта
         view.apply();
     }
     public void setZoom(float initialDistance, float distance){ // Устанавливает зоом
-
+           float a = (initialDistance/distance)/4;
+           cameraMap.zoom=a;
+           if(cameraMap.zoom>2){cameraMap.zoom=2f;}
+           if(cameraMap.zoom<0.4f){cameraMap.zoom=0.6f;}
+           cameraMap.update();
     }
     public void dispose(){
 
