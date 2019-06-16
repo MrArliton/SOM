@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class HUD {
     OrthographicCamera cameraHUD;
-    Viewport view = new StretchViewport(Constants.width, Constants.heigth);
+    public Viewport view = new StretchViewport(Constants.width, Constants.heigth);
     MapCon controll;
     Sprite text = new Sprite(new Texture("HUD/InfoPanel.png"));
     public HUD(MapCon conM) {
@@ -30,7 +30,12 @@ public class HUD {
     public void update(float delta){
 
     }
+    public boolean clickMe(int x,int y){
+        return false;
+    }
+    public void editPositionMap(){ // Действия при сдвиге карты
 
+    }
     public void resize(int width,int height){
         view.update(width,height);
     }

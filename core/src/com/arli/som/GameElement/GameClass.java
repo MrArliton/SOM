@@ -21,10 +21,13 @@ public class GameClass implements Screen {
     MapController MCont;
     public GameClass() { // Создаём основные части игры
         batch = new SpriteBatch();
+        // Подключение основных систем
         map = new MAP("");
         hud = new HUD(MCont);
         MCont = new MapController(map); // Управляет картой
-        input = new InputController(map,hud,batch);
+        // Система контроля
+        input = new InputController(map,hud,MCont);
+        // Переключение на систему управления игрой
         Gdx.input.setInputProcessor(new GestureDetector(input));
     }
     @Override

@@ -17,8 +17,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class MAP { // Карта
     // Тут  обрабатываем все изменения в карте
    public OrthographicCamera cameraMap;
-    String test = "30,2,15;1,4,2";
-    Array<Cell> cells = new Array<Cell>();
+    String test = "1,2,2;2,4,2";
+   public Array<Cell> cells = new Array<Cell>();
    public Viewport view = new ScreenViewport();
     public MAP(String mapPath) { // Тут Получаем карту в txt формате
         cameraMap = new OrthographicCamera(Constants.width,Constants.heigth);
@@ -28,6 +28,10 @@ public class MAP { // Карта
 
         generateCells(test); // Текст из txt
         cameraMap.zoom = 0.8f;
+    }
+    public void generateDefaultObjects(){ // Генерация начальных объектов карты
+        // Также захват стандартных територий
+
     }
     public void generateCells(String map){ // генерируем карту
         String[] buffer = map.split(";");
@@ -58,7 +62,14 @@ public class MAP { // Карта
             cells.get(i).render(batch);
         }
     }
-
+    public Cell getCell(int id){
+        for(int i = 0;i<cells.size;i++){
+            if(cells.get(i).getCellID()==id) {
+                return cells.get(i);
+            }
+        }
+        return null;
+    }
     public void update(float delta){
         Vector2 min = new Vector2(cameraMap.viewportWidth-cameraMap.viewportWidth+Constants.width,cameraMap.viewportHeight);
         min.scl(cameraMap.zoom/2);

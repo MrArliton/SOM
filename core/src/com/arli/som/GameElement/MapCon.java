@@ -9,4 +9,7 @@ public interface MapCon { // Основные методы взаимодейс�
      boolean removeObject(int idCell);
      Map<String,String> getObjectInfo(int idCell);
      boolean editObject(int idCell,Map<String,String> edits);
+     int getCellID(int x,int y);
+     boolean clickMap(int x,int y);
+     void clearDefaultWindows();
 }
