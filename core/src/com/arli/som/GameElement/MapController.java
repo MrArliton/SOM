@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class MapController implements MapCon { // Управляет картой
 MAP map;
+int idInfoCell = -1;
     public MapController(MAP map) {
         this.map = map;
     }
@@ -42,14 +43,38 @@ MAP map;
     }
 
     @Override
+    public Cell getCell(int idCell) {
+      return map.getCell(idCell);
+    }
+
+    public int createWindowInfoCell(int idCell,int country){
+     int id = map.activateWindowInfoCell(idCell,country);
+     return id;
+    }
+
+    @Override
     public boolean clickMap(int x, int y) { // Действия при нажатии на кнопку
         // Активация подсветки клетки
         // Также активируется окно информации о клетке
-        int a = getCellID(x,y);
-        Cell cell = map.getCell(a);
-        if(cell!=null){
+        if(!map.clickWindow(x,y)) {
             clearDefaultWindows();
-            cell.activateIllumination();
+            int a = getCellID(x, y);
+            Cell cell = map.getCell(a);
+            if (cell != null) {
+                cell.activateIllumination();
+                idInfoCell = createWindowInfoCell(a, 1); // 1 country - player id
+                return true;
+            }
+        }else{ // Если клик прошёл по карте
+            if(idInfoCell!=-1) { // Если активно окно то проверим его
+                try {
+                    if (Integer.parseInt(map.getInfoWindow(idInfoCell).get("press")) == 1) { // Активируем окно строительства для данной клетки
+                        System.out.println("pressed");
+                        clearDefaultWindows();
+                    }
+                } catch (NumberFormatException exp){}
+            }
+            return true;
         }
         return false;
     }
@@ -59,6 +84,15 @@ MAP map;
         // Выключение подсветки на всех клетках
         for(int i = 0;i<map.cells.size;i++){
             map.cells.get(i).deactivateIllumination();
+            if(idInfoCell!=-1) {
+                map.removeWindow(idInfoCell);
+                idInfoCell = -1;
+            }
         }
+    }
+
+    @Override
+    public void createWindowObject(int idCell) {
+
     }
 }

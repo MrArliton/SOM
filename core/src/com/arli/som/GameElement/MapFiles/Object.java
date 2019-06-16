@@ -1,8 +1,8 @@
 package com.arli.som.GameElement.MapFiles;
 
-public class Object {
-
-
+public abstract class Object {
+    public void render(){}
+    public void update(){}
 
     public void dispose(){}
 }

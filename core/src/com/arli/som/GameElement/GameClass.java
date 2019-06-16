@@ -43,7 +43,7 @@ public class GameClass implements Screen {
         hud.update(delta);
         // render
         batch.begin();
-        Gdx.gl.glClearColor(0.5f,0.8f,1,0.5f);
+        Gdx.gl.glClearColor(0.8f,0.8f,0.8f,0.5f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         map.render(batch);
         hud.render(batch);
