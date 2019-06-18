@@ -4,6 +4,8 @@ import com.arli.som.Constants;
 import com.arli.som.GameElement.Elements.CellInformation;
 import com.arli.som.GameElement.Elements.Element;
 import com.arli.som.GameElement.MapFiles.Cell;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -25,7 +27,7 @@ public class MAP { // Карта
     Sprite foneWIC = new Sprite(new Texture("MAP/foneWIC.png"));
    public OrthographicCamera cameraMap;
     Map<String,String> buffer = new HashMap<String, String>();
-    String test = "1,2,2;2,4,2";
+    String test = "1,1,16;30,4,2";
    public Array<Cell> cells = new Array<Cell>();
    public Viewport view = new ScreenViewport();
    Array<Element> elements = new Array<Element>();
@@ -84,23 +86,25 @@ public class MAP { // Карта
         }
         return false;
     }
-    public boolean clickWindow(int x,int y){
+    public boolean clickWindow(int x,int y){ //Проверка было ли нажатие на одно из окон на карте
         for(int i = 0;i<elements.size;i++){
-            if(elements.get(i).getInfo().get("type").equalsIgnoreCase("window")){ // Если тип окно то
-                if(Integer.parseInt(elements.get(i).getInfo().get("x"))<x&&Integer.parseInt(elements.get(i).getInfo().get("w"))+Integer.parseInt(elements.get(i).getInfo().get("x"))>x&&Integer.parseInt(elements.get(i).getInfo().get("y"))<y&&Integer.parseInt(elements.get(i).getInfo().get("h"))+Integer.parseInt(elements.get(i).getInfo().get("y"))>y) { // Проверяем условия
-                    if (elements.get(i).getInfo().containsKey("res")) {
-                        String[] b = elements.get(i).getInfo().get("res").split(",");
-                        for (String a : b) {
-                            if (a.equalsIgnoreCase("button")) {
-                                buffer.clear();
-                                buffer.put("button", +x + "," + y);
-                                elements.get(i).resourse(buffer);
+            if(elements.get(i).getInfo().get("type").equalsIgnoreCase("window")) { // Если тип окно то
+                try {
+                    if (Integer.parseInt(elements.get(i).getInfo().get("x")) < x && Integer.parseInt(elements.get(i).getInfo().get("w")) + Integer.parseInt(elements.get(i).getInfo().get("x")) > x && Integer.parseInt(elements.get(i).getInfo().get("y")) < y && Integer.parseInt(elements.get(i).getInfo().get("h")) + Integer.parseInt(elements.get(i).getInfo().get("y")) > y) { // Проверяем условия
+                        if (elements.get(i).getInfo().containsKey("res")) {
+                            String[] b = elements.get(i).getInfo().get("res").split(",");
+                            for (String a : b) {
+                                if (a.equalsIgnoreCase("button")) {
+                                    buffer.clear();
+                                    buffer.put("button", +x + "," + y);
+                                    elements.get(i).resourse(buffer);
+                                }
                             }
                         }
+                        return true;
                     }
-                    return true;
+                }catch (NumberFormatException exp){}
                 }
-            }
         }
         return false;
     }
@@ -111,14 +115,14 @@ public class MAP { // Карта
             for(int o = 0;o<Integer.parseInt(buffer[i].split(",")[2]);o++){
                 if(Integer.parseInt(buffer[i].split(",")[1])%2!=0)
                 if(o%2==0)
-                cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,50+Constants.cellH/Constants.cellDvigY+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(textureCells[0]),new Sprite(textureCells[1]),textureCellsColors));
+                cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH/Constants.cellDvigY+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(textureCells[0]),new Sprite(textureCells[1]),textureCellsColors));
             else
-                    cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,50+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(textureCells[0]),new Sprite(textureCells[1]),textureCellsColors));
+                    cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(textureCells[0]),new Sprite(textureCells[1]),textureCellsColors));
                 else
                 if(o%2!=0)
-                    cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,50+Constants.cellH/Constants.cellDvigY+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(textureCells[0]),new Sprite(textureCells[1]),textureCellsColors));
+                    cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH/Constants.cellDvigY+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(textureCells[0]),new Sprite(textureCells[1]),textureCellsColors));
                 else
-                    cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,50+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(textureCells[0]),new Sprite(textureCells[1]),textureCellsColors));
+                    cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(textureCells[0]),new Sprite(textureCells[1]),textureCellsColors));
                 buff1+=1;
             }
 
@@ -130,7 +134,7 @@ public class MAP { // Карта
     }
     public void render(SpriteBatch batch){
         batch.setProjectionMatrix(cameraMap.combined);
-        fone.setBounds(-100,-100,Constants.width+100,Constants.heigth+100);
+        fone.setBounds(-100,-100,Constants.width+200,Constants.heigth+100);
         fone.setAlpha(0.7f);
         fone.draw(batch);
         for(int i =0;i<cells.size;i++){
@@ -174,7 +178,11 @@ public class MAP { // Карта
     }
     public void setZoom(float initialDistance, float distance){ // Устанавливает зоом
            float a = initialDistance/distance - 1f + cameraMap.zoom;
-           a = Math.max(0.3f,Math.min(a,1f));
+           float correct = Math.max(1-(float)Constants.heigth/Constants.resolutionWindowH,1-(float)Constants.width/Constants.resolutionWindowW)+0.05f;
+           if(correct<0){
+               correct = 0;
+           }
+           a = Math.max(0.3f,Math.min(a,1f-correct));
            cameraMap.zoom=a;
            cameraMap.update();
     }

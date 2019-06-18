@@ -5,6 +5,7 @@ import com.arli.som.GameElement.MapCon;
 import com.arli.som.GameElement.MapFiles.Cell;
 import com.arli.som.language;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -29,11 +30,12 @@ public class CellInformation extends Element {// Класс вызывается
     BitmapFont texter = new BitmapFont(Gdx.files.internal("myFont.fnt"));
     TextureRegion[] texture;
     Sprite fone;
+    float whT = 2f;
     @Override
     public void resourse(Map<String, String> res) {
         super.resourse(res);
         if(res.containsKey("button")){ // Нажатие на кнопку
-            System.out.println(button.getX());
+            System.out.println(button.getX()); // Проверяем было ли нажатие на кнопку
             if(Integer.parseInt(res.get("button").split(",")[0])>button.getX()&&Integer.parseInt(res.get("button").split(",")[0])<button.getX()+button.getWidth()&&Integer.parseInt(res.get("button").split(",")[1])>button.getY()&&Integer.parseInt(res.get("button").split(",")[1])<button.getY()+button.getHeight()){
                System.out.println("Pressed");
                 info.put("press","1");
@@ -59,7 +61,7 @@ public class CellInformation extends Element {// Класс вызывается
             SpriteDrawable b = new SpriteDrawable();
             b.setSprite(new Sprite(buttonD[1]));
             style.down = b;
-            this.button = new TextButton(language.getText(textButton),style);
+            this.button = new TextButton(language.getText(textButton,1),style);
             info.put("press","0");
             button.setWidth(Constants.cellBW);
             button.setHeight(Constants.cellBH);
@@ -69,6 +71,7 @@ public class CellInformation extends Element {// Класс вызывается
         y = cell.getCentr()[1];
         width = Constants.cellInfoW;
         heigh = Constants.cellInfoH;
+        // Создаём координаты для проверки на нажатие по окну
         info.put("x",""+x);
         info.put("y",""+y);
         info.put("w",""+width);
@@ -82,6 +85,9 @@ public class CellInformation extends Element {// Класс вызывается
         if(buttonA){
             button.draw(batch,1f);
         }
+        texter.setColor(Constants.color);
+        texter.getData().setScale(Constants.WHFont);
+        texter.draw(batch,cell.getCellInfo()+language.getText(cell.getIdControll()+"",2),x+Constants.xR,y+Constants.hR+heigh);
     }
 
     @Override

@@ -27,6 +27,16 @@ public class GameClass implements Screen {
         MCont = new MapController(map); // Управляет картой
         // Система контроля
         input = new InputController(map,hud,MCont);
+        // Создаём коректировку для нужных разрешений
+        int h = Constants.heigth;
+        int w = Constants.width;
+        int h1 = Constants.resolutionWindowH;
+        int w1 = Constants.resolutionWindowW;
+        float correct = Math.max(1-(float)h/h1,1-(float)w/w1)+0.05f;
+        if(correct<0){
+            correct = 0;
+        }
+        map.cameraMap.zoom = 1f-correct;
         // Переключение на систему управления игрой
         Gdx.input.setInputProcessor(new GestureDetector(input));
     }
@@ -43,7 +53,7 @@ public class GameClass implements Screen {
         hud.update(delta);
         // render
         batch.begin();
-        Gdx.gl.glClearColor(0.8f,0.8f,0.8f,0.5f);
+        Gdx.gl.glClearColor(1f,1f,1f,0.5f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         map.render(batch);
         hud.render(batch);

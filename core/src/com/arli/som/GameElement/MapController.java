@@ -60,7 +60,7 @@ int idInfoCell = -1;
             clearDefaultWindows();
             int a = getCellID(x, y);
             Cell cell = map.getCell(a);
-            if (cell != null) {
+            if (cell != null&&!cell.obj) {
                 cell.activateIllumination();
                 idInfoCell = createWindowInfoCell(a, 1); // 1 country - player id
                 return true;
@@ -69,7 +69,7 @@ int idInfoCell = -1;
             if(idInfoCell!=-1) { // Если активно окно то проверим его
                 try {
                     if (Integer.parseInt(map.getInfoWindow(idInfoCell).get("press")) == 1) { // Активируем окно строительства для данной клетки
-                        System.out.println("pressed");
+
                         clearDefaultWindows();
                     }
                 } catch (NumberFormatException exp){}

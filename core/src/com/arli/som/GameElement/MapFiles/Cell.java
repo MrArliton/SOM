@@ -1,6 +1,7 @@
 package com.arli.som.GameElement.MapFiles;
 
 import com.arli.som.GameElement.Elements.Element;
+import com.arli.som.language;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,6 +18,7 @@ public class Cell { // Ячейка
     int widthC;
     int heighC;
     int idControll = 0;
+    String info = language.getText("defaultCellInfo",1);
     Sprite texture;
     Sprite textureDown;
     TextureRegion[] colors;
@@ -41,6 +43,13 @@ public class Cell { // Ячейка
         heighC = heigh;
         this.colors = colors;
         color = new Sprite(colors[0]);
+    }
+
+    public void setCellInfo(String info){
+        this.info = info;
+    }
+    public String getCellInfo(){
+        return info;
     }
     public void setIdControll(int idControll){
          this.idControll = idControll;
@@ -116,7 +125,7 @@ public class Cell { // Ячейка
             texture.setBounds(x,y,width,heigh);
             texture.draw(batch);
         }
-        if(idControll<4){ // Если принадлежит другой стране то перекрасить края клетки
+        if(idControll<5){ // Если принадлежит другой стране то перекрасить края клетки
         color.setBounds(x,y,width,heigh);
         color.draw(batch);
         }
