@@ -18,7 +18,8 @@ public class GameClass implements Screen {
     HUD hud;
     SpriteBatch batch;
      InputController input;
-     Map<String,String> options;
+     Map<String,String> options; // Настройки при запуске игры
+     InfoCountry infoCountry; // Тут информация о старанах их ресурсах.
     Viewport view = new FitViewport(Constants.width,Constants.heigth);
     MapController MCont;
     public GameClass(Map<String,String> options) { // Создаём основные части игры
