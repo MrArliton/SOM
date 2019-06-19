@@ -4,8 +4,10 @@ import com.arli.som.Constants;
 import com.arli.som.GameElement.Elements.CellInformation;
 import com.arli.som.GameElement.Elements.Element;
 import com.arli.som.GameElement.MapFiles.Cell;
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -19,6 +21,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,7 +45,7 @@ public class MAP { // Карта
 
         view.setCamera(cameraMap);
 
-        generateCells(test); // Текст из txt
+        generateCells(mapPath); // Текст из txt
         cameraMap.zoom = 0.8f;
     }
     public void generateDefaultObjects(){ // Генерация начальных объектов карты
@@ -109,28 +112,26 @@ public class MAP { // Карта
         return false;
     }
     public void generateCells(String map){ // генерируем карту
+        FileHandle file = Gdx.files.internal("Maps/"+map);
+        map = file.readString();
         String[] buffer = map.split(";");
         int buff1 = 1;
         for(int i = 0;i<buffer.length;i++){
             for(int o = 0;o<Integer.parseInt(buffer[i].split(",")[2]);o++){
                 if(Integer.parseInt(buffer[i].split(",")[1])%2!=0)
                 if(o%2==0)
-                cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH/Constants.cellDvigY+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(textureCells[0]),new Sprite(textureCells[1]),textureCellsColors));
+                cells.add(new Cell(buff1,3+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH/Constants.cellDvigY+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(textureCells[0]),new Sprite(textureCells[1]),textureCellsColors));
             else
-                    cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(textureCells[0]),new Sprite(textureCells[1]),textureCellsColors));
+                    cells.add(new Cell(buff1,3+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(textureCells[0]),new Sprite(textureCells[1]),textureCellsColors));
                 else
                 if(o%2!=0)
-                    cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH/Constants.cellDvigY+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(textureCells[0]),new Sprite(textureCells[1]),textureCellsColors));
+                    cells.add(new Cell(buff1,3+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH/Constants.cellDvigY+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(textureCells[0]),new Sprite(textureCells[1]),textureCellsColors));
                 else
-                    cells.add(new Cell(buff1,10+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(textureCells[0]),new Sprite(textureCells[1]),textureCellsColors));
+                    cells.add(new Cell(buff1,3+Constants.cellDvigX*Integer.parseInt(buffer[i].split(",")[1])+Constants.cellDvigX*o,100+Constants.cellH*Integer.parseInt(buffer[i].split(",")[0]),Constants.cellW,Constants.cellH,new Sprite(textureCells[0]),new Sprite(textureCells[1]),textureCellsColors));
                 buff1+=1;
             }
 
         }
-        for(int i = 0;i<cells.size;i++){
-           System.out.println( cells.get(i).getCellID());
-        }
-         cells.get(0).setIdControll(1);
     }
     public void render(SpriteBatch batch){
         batch.setProjectionMatrix(cameraMap.combined);

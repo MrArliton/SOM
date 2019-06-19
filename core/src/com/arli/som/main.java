@@ -3,14 +3,17 @@ package com.arli.som;
 import com.arli.som.GameElement.GameClass;
 import com.badlogic.gdx.Game;
 
-
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class main extends Game { // Управляющий класс
 	
 	@Override
 	public void create () { // Сразу переходим на Screen с игрой
-		setScreen(new GameClass());
+		Map<String,String> configGame = new HashMap<String, String>();
+		configGame.put("map","map1.txt");
+		setScreen(new GameClass(configGame));
 	}
 
 	@Override

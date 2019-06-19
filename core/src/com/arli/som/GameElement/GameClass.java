@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ConcurrentModificationException;
+import java.util.Map;
 
 // Основной класс игры
 public class GameClass implements Screen {
@@ -17,12 +18,14 @@ public class GameClass implements Screen {
     HUD hud;
     SpriteBatch batch;
      InputController input;
+     Map<String,String> options;
     Viewport view = new FitViewport(Constants.width,Constants.heigth);
     MapController MCont;
-    public GameClass() { // Создаём основные части игры
+    public GameClass(Map<String,String> options) { // Создаём основные части игры
         batch = new SpriteBatch();
+        this.options = options;
         // Подключение основных систем
-        map = new MAP("");
+        map = new MAP(options.get("map"));
         hud = new HUD(MCont);
         MCont = new MapController(map); // Управляет картой
         // Система контроля
@@ -53,7 +56,7 @@ public class GameClass implements Screen {
         hud.update(delta);
         // render
         batch.begin();
-        Gdx.gl.glClearColor(1f,1f,1f,0.5f);
+        Gdx.gl.glClearColor(0f,0f,0f,0.5f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         map.render(batch);
         hud.render(batch);

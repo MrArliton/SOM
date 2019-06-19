@@ -22,7 +22,7 @@ public class HUD {
     }
 
     public void render(SpriteBatch batch){
-        text.setBounds(20,Constants.heigth-80,680,80);
+        text.setBounds(20,Constants.heigth-60,680,60);
         batch.setProjectionMatrix(cameraHUD.combined);
         text.draw(batch);
     }
