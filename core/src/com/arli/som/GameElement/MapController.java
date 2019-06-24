@@ -64,6 +64,10 @@ int idInfoCell = -1;
                 cell.activateIllumination();
                 idInfoCell = createWindowInfoCell(a, 1); // 1 country - player id
                 return true;
+            }else if(cell!=null&&cell.obj){ // Если у ячейки есть объект
+                cell.activateIllumination();
+                idInfoCell = map.activateWindowObject(a,1);
+
             }
         }else{ // Если клик прошёл по карте
             if(idInfoCell!=-1) { // Если активно окно то проверим его

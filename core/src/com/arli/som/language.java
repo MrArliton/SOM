@@ -13,6 +13,13 @@ public class language {
                             "Захвачена - ";
                 }
 
+            }else  if (cod.equalsIgnoreCase("build")) {
+                if(lang == 0){
+
+                }else if(lang == 1){
+                    otvet = "Строить";
+                }
+
             }
 
         }else if(comp == 2){

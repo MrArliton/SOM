@@ -11,6 +11,11 @@ public class main extends Game { // Управляющий класс
 	
 	@Override
 	public void create () { // Сразу переходим на Screen с игрой
+		// map - pathMap
+		// players - Количество игроков/ботов
+		// multiplayer - Включён ли мультиплеер
+		// multiplayer. ... - Настройки мультиплеер надо доделать
+		// res. ... - начальные ресуры игрока/бота
 		Map<String,String> configGame = new HashMap<String, String>();
 		configGame.put("map","map1.txt");
 		setScreen(new GameClass(configGame));

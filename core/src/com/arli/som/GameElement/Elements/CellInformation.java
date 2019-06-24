@@ -63,9 +63,9 @@ public class CellInformation extends Element {// Класс вызывается
             style.down = b;
             this.button = new TextButton(language.getText(textButton,1),style);
             info.put("press","0");
-            button.setWidth(Constants.cellBW);
+            button.setWidth(Constants.cellBW+50); // Регулировка
             button.setHeight(Constants.cellBH);
-            button.setPosition(cell.getCentr()[0]+(Constants.cellInfoW-Constants.cellBW)/2,cell.getCentr()[1]+10);
+            button.setPosition(cell.getCentr()[0]+(Constants.cellInfoW-Constants.cellBW)/2-25,cell.getCentr()[1]+10); // + 50 Регулировка
         }
         x = cell.getCentr()[0];
         y = cell.getCentr()[1];
@@ -81,6 +81,7 @@ public class CellInformation extends Element {// Класс вызывается
     public void render(SpriteBatch batch) {
         super.render(batch);
         fone.setBounds(cell.getCentr()[0],cell.getCentr()[1],Constants.cellInfoW,Constants.cellInfoH);
+        fone.setColor(Color.WHITE);
         fone.draw(batch);
         if(buttonA){
             button.draw(batch,1f);

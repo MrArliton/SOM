@@ -14,4 +14,7 @@ public abstract class  Element { // Данный класс является о�
     public Map<String,String> getInfo(){
         return info;
     }
+    public void setId(int id){
+        info.put("id",id+"");
+    }
 }

@@ -6,13 +6,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 
 public class Cell { // Ячейка
     int cellID;
-    int x;
-    int y;
-    int width;
-    int heigh;
+    public int x;
+    public int y;
+   public int width;
+   public int heigh;
     int xC;
     int yC;
     int widthC;
@@ -27,7 +28,7 @@ public class Cell { // Ячейка
     public boolean obj = false;
     boolean illumination = false;
     Element element;
-    int effect = 0; // Номер набора эфектов
+    Array<Integer> effects = new Array<Integer>(); // Номер набора эфектов
     public Cell(int cellID,int x,int y,int width,int heigh,Sprite texture,Sprite textureDown,TextureRegion[] colors){
         this.cellID = cellID;
         this.x = x;
@@ -63,8 +64,11 @@ public class Cell { // Ячейка
         return otvet;
     }
     public int getIdControll(){return idControll;}
-    public void setEffect(int idEffect){
-        effect =idEffect;
+    public void addEffect(int idEffect){
+        effects.add(idEffect);
+    }
+    public void removeEffect(int idEffect){
+        effects.removeValue(idEffect,true);
     }
     public void setCellTexture(Sprite texture){
         this.texture = texture;
@@ -130,7 +134,8 @@ public class Cell { // Ячейка
         color.draw(batch);
         }
         if(myObj!=null&&obj){
-            myObj.render();
+            myObj.update();
+            myObj.render(batch);
         }
     }
 }

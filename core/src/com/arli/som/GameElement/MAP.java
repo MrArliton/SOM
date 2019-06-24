@@ -4,6 +4,8 @@ import com.arli.som.Constants;
 import com.arli.som.GameElement.Elements.CellInformation;
 import com.arli.som.GameElement.Elements.Element;
 import com.arli.som.GameElement.MapFiles.Cell;
+import com.arli.som.GameElement.MapFiles.objects.CentralSystem;
+import com.arli.som.GameElement.MapFiles.objects.ObjectsLoader;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
@@ -35,6 +37,7 @@ public class MAP { // Карта
    public Viewport view = new ScreenViewport();
    Array<Element> elements = new Array<Element>();
    Array<Integer> ids = new Array<Integer>();
+   ObjectsLoader loaderObjectsT  = new ObjectsLoader();
    // Атласы
     Sprite fone = new Sprite(new Texture("MAP/Fone.jpg"));
     TextureRegion[] textureCells = new TextureRegion(new Texture("MAP/MapAtlas.png")).split(Constants.cellTW,Constants.cellTH)[0];
@@ -62,10 +65,24 @@ public class MAP { // Карта
     }
     public int activateWindowInfoCell(int idCell,int country){ // Активирует окно для игрока относительно карты
         int id = 0;
-        while(!notIdsElement(0)){
-           id = (int)(Math.random()*100);
-        }
-        elements.add(new CellInformation(foneWIC,"build",new TextureRegion(new Texture("MAP/WICBAtlas.png")).split(Constants.cellBW,Constants.cellBH)[0],getCell(idCell),id));
+            while (!notIdsElement(id)) {
+                id = (int) (Math.random() * 100);
+            }
+            ids.add(id);
+            elements.add(new CellInformation(foneWIC, "build", new TextureRegion(new Texture("MAP/WICBAtlas.png")).split(Constants.cellBW, Constants.cellBH)[0], getCell(idCell), id));
+        return id;
+    }
+    public int activateWindowObject(int idCell,int country){
+        int id = 0;
+            while (!notIdsElement(id)) {
+                id = (int) (Math.random() * 100);
+            }
+            if(getCell(idCell).obj) {
+                elements.add(getCell(idCell).getObject().getElement(id));
+                ids.add(id);
+            }else{
+                id =-1;
+            }
         return id;
     }
     public Map<String,String> getInfoWindow(int id){
@@ -132,6 +149,21 @@ public class MAP { // Карта
             }
 
         }
+        // debug
+        cells.get(5).setIdControll(1);
+        Map<String,String> options = new HashMap<String, String>();
+        options.put("idControll",""+1);
+        options.put("health",""+10);
+        options.put("shield",""+10);
+        options.put("regenerationHealth",""+10);
+       options.put("extractionEnergy",""+5);
+        options.put("extractionMatter",""+10);
+        options.put("researchPoints",""+2);
+        options.put("transformationMatter",""+2);
+        options.put("level",""+0);
+        options.put("sprite","Objects/central.png");
+        cells.get(5).setObject(new CentralSystem(options,cells.get(5),loaderObjectsT));
+        //
     }
     public void render(SpriteBatch batch){
         batch.setProjectionMatrix(cameraMap.combined);
