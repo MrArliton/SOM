@@ -8,7 +8,15 @@ public class Constants {
    public  static final int heigth = 1280;
    public static final boolean debug = true;
    // Not edit
+    // Для объектов с улучшениями
  public static final float levelUpObj = 1.5f;
+ public static final float levelUpObjRes = 2f;
+ //
+    // Для central object
+    public static final float UpgEnergyZ = 5;
+    public static final float UpgMaterZ = 3;
+    public static final float UpProZ = 1;
+    //
    public static final int cellDvigX = (int)(58/1.5); // Плюсовка
    public static final int cellDvigY = 2; // Деление
     public static final int cellW = (int)(75/1.5); // Плюсовка

@@ -27,6 +27,13 @@ public class language {
                     otvet = "Улучшить";
                 }
 
+            }else  if (cod.equalsIgnoreCase("central")) {
+                if(lang == 0){
+
+                }else if(lang == 1){
+                    otvet = "Столица";
+                }
+
             }
 
         }else if(comp == 2){

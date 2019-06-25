@@ -73,7 +73,11 @@ int idInfoCell = -1;
             if(idInfoCell!=-1) { // Если активно окно то проверим его
                 try {
                     if (Integer.parseInt(map.getInfoWindow(idInfoCell).get("press")) == 1) { // Активируем окно строительства для данной клетки
+                        if(map.getInfoWindow(idInfoCell).get("buttonEffect").equalsIgnoreCase("upgrade")){ // Выполняем улучшение
+                            map.getCell(Integer.parseInt(map.getInfoWindow(idInfoCell).get("cell"))).getObject().activate(1); // Активируем улучшение объекта
+                        }else if(map.getInfoWindow(idInfoCell).get("buttonEffect").equalsIgnoreCase("build")){
 
+                        }
                         clearDefaultWindows();
                     }
                 } catch (NumberFormatException exp){}

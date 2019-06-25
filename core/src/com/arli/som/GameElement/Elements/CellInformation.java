@@ -47,6 +47,7 @@ public class CellInformation extends Element {// Класс вызывается
         info.put("id",id+"");
         info.put("type","window");
         info.put("level","1");
+        info.put("buttonEffect","build");
         this.cell = cell;
         texture = buttonD;
         this.fone = fone;

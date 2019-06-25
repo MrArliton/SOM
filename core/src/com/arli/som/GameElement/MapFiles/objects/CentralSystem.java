@@ -1,7 +1,9 @@
 package com.arli.som.GameElement.MapFiles.objects;
 
+import com.arli.som.Constants;
 import com.arli.som.GameElement.Elements.CentralElement;
 import com.arli.som.GameElement.Elements.Element;
+import com.arli.som.GameElement.InfoCountry;
 import com.arli.som.GameElement.MapFiles.Cell;
 import com.arli.som.GameElement.MapFiles.Object;
 import com.badlogic.gdx.Gdx;
@@ -31,9 +33,11 @@ public class CentralSystem extends Object {
     BitmapFont texter = new BitmapFont(Gdx.files.internal("myFont.fnt"));
     Cell cell;
     ObjectsLoader loader;
-    public CentralSystem(Map<String,String> options, Cell cell,ObjectsLoader loader) {
+    InfoCountry infoCountry;
+    public CentralSystem(Map<String,String> options, Cell cell, ObjectsLoader loader, InfoCountry infoCountry) {
         this.cell = cell;
         this.loader = loader;
+        this.infoCountry = infoCountry;
         idControll = Integer.parseInt(options.get("idControll"));
         health = Integer.parseInt(options.get("health"));
         shield = Integer.parseInt(options.get("shield"));
@@ -48,10 +52,15 @@ public class CentralSystem extends Object {
     @Override
     public Element getElement(int id){
         Map<String,String> infoElement = new HashMap<String, String>();
+        //
+        infoElement.put("eU", Constants.UpgEnergyZ +"");
+        infoElement.put("exU",Constants.UpgMaterZ+"");
+        infoElement.put("tU",Constants.UpProZ+"");
+        //
                 infoElement.put("h",health+"");
                         infoElement.put("s",shield+"");
                                 infoElement.put("r",regenerationHealth+"");
-                                        infoElement.put("e",extractionEnergy+"");
+                                    infoElement.put("e",extractionEnergy+"");
                                                 infoElement.put("ex",extractionMatter+"");
                                                         infoElement.put("re",researchPoints+"");
                                                                 infoElement.put("t",transformationMatter+"");
@@ -61,10 +70,30 @@ public class CentralSystem extends Object {
         }else{
             infoElement.put("upgrade","false");
         }
-        element = new CentralElement(loader,new TextureRegion(new Texture("MAP/WICBAtlas.png")).split(100,30)[0],this,infoElement,cell,id);
+        element = new CentralElement(loader,new TextureRegion(new Texture("MAP/WICBAtlas.png")).split(100,30)[0],this,infoElement,cell,id,cell.getCellID());
         return element;
     }
+    public void activateUpgrade(){
+        level+=1;
+        extractionMatter*=Constants.levelUpObj;
+        extractionMatter*=Constants.levelUpObj;
+        researchPoints*=Constants.levelUpObj;
+        transformationMatter*=Constants.levelUpObj;
+    }
+    @Override
+    public void activate(int num){ // Если апгрейд
+        if(num == 1){
+            activateUpgrade();
+        }
+    }
     private boolean isUpgrade(){
+        if(infoCountry.>(Constants.UpgEnergyZ*(level+1)*Constants.levelUpObjRes)){
+            if(>(Constants.UpgMaterZ*(level+1)*Constants.levelUpObjRes)){
+                if(>(Constants.UpProZ*(level+1)*Constants.levelUpObjRes)){
+                    return true;
+                };
+            }
+        };
         return false;
     }
     @Override

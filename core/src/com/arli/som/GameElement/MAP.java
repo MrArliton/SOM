@@ -42,10 +42,11 @@ public class MAP { // Карта
     Sprite fone = new Sprite(new Texture("MAP/Fone.jpg"));
     TextureRegion[] textureCells = new TextureRegion(new Texture("MAP/MapAtlas.png")).split(Constants.cellTW,Constants.cellTH)[0];
     TextureRegion[] textureCellsColors = new TextureRegion(new Texture("MAP/ColorAtlasMap.png")).split(Constants.cellTW,Constants.cellTH)[0];
-    public MAP(String mapPath) { // Тут Получаем карту в txt формате
+    InfoCountry infoCountry;
+    public MAP(String mapPath,InfoCountry infoCountry) { // Тут Получаем карту в txt формате
         cameraMap = new OrthographicCamera(Constants.width,Constants.heigth);
         cameraMap.setToOrtho(false,Constants.width,Constants.heigth);
-
+            this.infoCountry = infoCountry;
         view.setCamera(cameraMap);
 
         generateCells(mapPath); // Текст из txt
@@ -96,6 +97,7 @@ public class MAP { // Карта
         }
         return null;
     }
+
     public boolean removeWindow(int id){
         for(int i = 0;i<elements.size;i++){
             if(Integer.parseInt(elements.get(i).getInfo().get("id"))==id){
@@ -163,7 +165,7 @@ public class MAP { // Карта
         options.put("transformationMatter",""+2);
         options.put("level",""+0);
         options.put("sprite","Objects/central.png");
-        cells.get(5).setObject(new CentralSystem(options,cells.get(5),loaderObjectsT));
+        cells.get(5).setObject(new CentralSystem(options,cells.get(5),loaderObjectsT,infoCountry));
         //
     }
     public void render(SpriteBatch batch){

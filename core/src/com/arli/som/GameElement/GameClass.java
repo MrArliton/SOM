@@ -24,9 +24,10 @@ public class GameClass implements Screen {
     MapController MCont;
     public GameClass(Map<String,String> options) { // Создаём основные части игры
         batch = new SpriteBatch();
+        infoCountry = new InfoCountry();
         this.options = options;
         // Подключение основных систем
-        map = new MAP(options.get("map"));
+        map = new MAP(options.get("map"),infoCountry);
         hud = new HUD(MCont);
         MCont = new MapController(map); // Управляет картой
         // Система контроля

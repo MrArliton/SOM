@@ -6,6 +6,7 @@ import com.arli.som.GameElement.MapFiles.objects.CentralSystem;
 import com.arli.som.GameElement.MapFiles.objects.ObjectsLoader;
 import com.arli.som.language;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -32,7 +33,7 @@ public class CentralElement extends Element {
     boolean upgradeOn = false; // Обязательно false
     BitmapFont texter = new BitmapFont(Gdx.files.internal("myFont.fnt"));
     // Показывает эффекты от столицы а также что требуется для улучшения
-    public CentralElement(ObjectsLoader loader, TextureRegion[] buttonT, CentralSystem system, Map<String,String> information, Cell cell, int id) {
+    public CentralElement(ObjectsLoader loader, TextureRegion[] buttonT, CentralSystem system, Map<String,String> information, Cell cell, int id,int cellid) {
         this.buttonT =buttonT;
         this.loader = loader;
         this.cell =cell;
@@ -44,6 +45,7 @@ public class CentralElement extends Element {
         info.put("id",id+"");
         info.put("type","window");
         info.put("level","1");
+        info.put("cell",cellid+"");
         // Кнопка
         info.put("res","button"); // Запрос ресурсов для кнопки
         info.put("buttonEffect","upgrade");
@@ -54,17 +56,17 @@ public class CentralElement extends Element {
         Drawable down = new SpriteDrawable(new Sprite(buttonT[0]));
         style.down = down;
         upgrade = new TextButton(language.getText("upgrade",1),style);
-        upgrade.setWidth(Constants.cellBW-25); // Улучшение
-        upgrade.setHeight(Constants.cellBH-10);
-        upgrade.setPosition(cell.getCentr()[0]+(Constants.cellInfoW-Constants.cellBW)/2+50,cell.getCentr()[1]+10);
+        upgrade.setWidth(Constants.cellBW-5); // Улучшение
+        upgrade.setHeight(Constants.cellBH-2);
+        upgrade.setPosition(cell.getCentr()[0]+(Constants.cellInfoW-Constants.cellBW)/2+50,cell.getCentr()[1]+30);
         info.put("x",cell.getCentr()[0]+"");
         x = Integer.parseInt(info.get("x"));
         info.put("y",cell.getCentr()[1]+"");
         y = Integer.parseInt(info.get("y"));
-        info.put("w",cell.getCentr()[0]+Constants.cellInfoW+"");
+        info.put("w",Constants.cellInfoW+"");
         width = Integer.parseInt(info.get("w"));
-        info.put("h",cell.getCentr()[1]+Constants.cellInfoH+"");
-        heigh = Integer.parseInt(info.get("h"))-y;
+        info.put("h",Constants.cellInfoH+"");
+        heigh = Integer.parseInt(info.get("h"));
     }
     @Override
     public void resourse(Map<String, String> res) {
@@ -112,15 +114,30 @@ public class CentralElement extends Element {
         loader.iconR.setBounds(x+Constants.xIE+Constants.xIS,y+heigh-Constants.yIE-3*Constants.yIS,Constants.widthIcon,Constants.heigthIcon);
         loader.iconR.draw(batch);
         texter.draw(batch,(int)(Float.parseFloat(info.get("re"))*Constants.levelUpObj)+"",x+Constants.xIE+Constants.tX+Constants.xIS,y+heigh-Constants.yIE+Constants.tY-3*Constants.yIS);
+        // 3 icons
+        loader.iconE.setBounds(x+Constants.xIE+Constants.xIS+45,y+heigh-Constants.yIE-65,Constants.widthIcon,Constants.heigthIcon);
+        loader.iconE.draw(batch);
+        texter.draw(batch,(int)(Float.parseFloat(info.get("eU"))*(Integer.parseInt(info.get("l"))+1)*Constants.levelUpObjRes)+"",x+Constants.xIE+Constants.tX+Constants.xIS+42,y+heigh-Constants.yIE+Constants.tY-65);
+        loader.iconM.setBounds(x+Constants.xIE+Constants.xIS+75,y+heigh-Constants.yIE-65,Constants.widthIcon,Constants.heigthIcon);
+        loader.iconM.draw(batch);
+        texter.draw(batch,(int)(Float.parseFloat(info.get("exU"))*(Integer.parseInt(info.get("l"))+1)*Constants.levelUpObjRes)+"",x+Constants.xIE+Constants.tX+Constants.xIS+73,y-65+heigh-Constants.yIE+Constants.tY);
+        loader.iconP.setBounds(x+Constants.xIE+Constants.xIS+105,y+heigh-Constants.yIE-65,Constants.widthIcon,Constants.heigthIcon);
+        loader.iconP.draw(batch);
+        texter.draw(batch,(int)(Float.parseFloat(info.get("tU"))*(Integer.parseInt(info.get("l"))+1)*Constants.levelUpObjRes)+"",x+Constants.xIE+Constants.tX+Constants.xIS+102,y+heigh-Constants.yIE+Constants.tY-65);
         //
         texter.setColor(Constants.color);
-        texter.getData().setScale(Constants.WHFont);
-        texter.draw(batch,"",x+Constants.xR,y+Constants.hR+heigh);
+        texter.getData().setScale(Constants.WHFont+0.2f);
+        texter.draw(batch,language.getText("central",1),x+Constants.xR+(Constants.cellInfoW/2),y+Constants.hR+heigh);
     }
 
     @Override
     public void update() {
         super.update();
+        if(upgradeOn) {
+            upgrade.setColor(Color.WHITE);
+        }else{
+            upgrade.setColor(Color.GRAY);
+        }
     }
 
     @Override
