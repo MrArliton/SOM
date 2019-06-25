@@ -20,6 +20,13 @@ public class language {
                     otvet = "Строить";
                 }
 
+            }else  if (cod.equalsIgnoreCase("upgrade")) {
+                if(lang == 0){
+
+                }else if(lang == 1){
+                    otvet = "Улучшить";
+                }
+
             }
 
         }else if(comp == 2){

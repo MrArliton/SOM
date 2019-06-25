@@ -123,7 +123,8 @@ public class MAP { // Карта
                         }
                         return true;
                     }
-                }catch (NumberFormatException exp){}
+                }catch (NumberFormatException exp){
+                }
                 }
         }
         return false;

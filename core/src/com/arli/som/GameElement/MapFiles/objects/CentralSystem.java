@@ -48,6 +48,14 @@ public class CentralSystem extends Object {
     @Override
     public Element getElement(int id){
         Map<String,String> infoElement = new HashMap<String, String>();
+                infoElement.put("h",health+"");
+                        infoElement.put("s",shield+"");
+                                infoElement.put("r",regenerationHealth+"");
+                                        infoElement.put("e",extractionEnergy+"");
+                                                infoElement.put("ex",extractionMatter+"");
+                                                        infoElement.put("re",researchPoints+"");
+                                                                infoElement.put("t",transformationMatter+"");
+                                                                        infoElement.put("l",level+"");
         if(isUpgrade()){
             infoElement.put("upgrade","true");
         }else{
