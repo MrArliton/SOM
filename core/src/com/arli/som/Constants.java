@@ -17,6 +17,15 @@ public class Constants {
     public static final float UpgMaterZ = 3;
     public static final float UpProZ = 1;
     //
+    // Время
+    public static final float timeDayCycle = 0.5f;
+    // HUD
+    // icons
+    public static final int xIconZdvig = 140;
+    public static final int yIconZdvig = 55;
+    public static final int IconW = 50;
+    public static final int IconH = 50;
+    //
    public static final int cellDvigX = (int)(58/1.5); // Плюсовка
    public static final int cellDvigY = 2; // Деление
     public static final int cellW = (int)(75/1.5); // Плюсовка

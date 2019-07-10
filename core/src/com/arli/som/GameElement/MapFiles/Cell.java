@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Cell { // Ячейка
     int cellID;
     public int x;
@@ -70,6 +73,12 @@ public class Cell { // Ячейка
     public void removeEffect(int idEffect){
         effects.removeValue(idEffect,true);
     }
+    public Map<String,String> getEffectsCell(){ // Собирает все эффекты с клетки и возвращает их
+        Map<String,String> effectList = new HashMap<String, String>();
+
+
+        return effectList;
+    }
     public void setCellTexture(Sprite texture){
         this.texture = texture;
     }
@@ -88,15 +97,7 @@ public class Cell { // Ячейка
     public void deactivateIllumination(){ // Деактивирует подсветку
         illumination = false;
     }
-    public void setElement(){ // Изменяет элемент ячейки
 
-    }
-    public void activeElement(){ // Активирует окно с информацией
-
-    }
-    public void deactivateElement(){ // Деактивирует окно с информацией
-
-    }
     public int getCellID(){
         return cellID;
     }

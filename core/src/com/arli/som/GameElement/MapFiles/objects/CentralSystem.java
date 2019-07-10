@@ -28,12 +28,17 @@ public class CentralSystem extends Object {
     // Добыча ресурсов
     float extractionEnergy; // Добыча энергии
     float extractionMatter; // Добыча материи
-    float researchPoints; // Исследовательские поинты
+    int researchPoints; // Исследовательские поинты
     float transformationMatter; // Зависит скорость строительства и востонавления объектов
+    float transformation;
+    boolean transformationOn;
+    int upgradeMonths;
+    int buffer;
     BitmapFont texter = new BitmapFont(Gdx.files.internal("myFont.fnt"));
     Cell cell;
     ObjectsLoader loader;
     InfoCountry infoCountry;
+    int lastMonth = 0;
     public CentralSystem(Map<String,String> options, Cell cell, ObjectsLoader loader, InfoCountry infoCountry) {
         this.cell = cell;
         this.loader = loader;
@@ -47,7 +52,10 @@ public class CentralSystem extends Object {
         researchPoints = Integer.parseInt(options.get("researchPoints"));
         transformationMatter = Integer.parseInt(options.get("transformationMatter"));
         level = Integer.parseInt(options.get("level"));
+        upgradeMonths = Integer.parseInt(options.get("month"));
         central = new Sprite(new Texture("Map/"+options.get("sprite")));
+        infoRes = infoCountry;
+        transformation = transformationMatter;
     }
     @Override
     public Element getElement(int id){
@@ -63,37 +71,54 @@ public class CentralSystem extends Object {
                                     infoElement.put("e",extractionEnergy+"");
                                                 infoElement.put("ex",extractionMatter+"");
                                                         infoElement.put("re",researchPoints+"");
-                                                                infoElement.put("t",transformationMatter+"");
+                                                                infoElement.put("t",transformation+"");
                                                                         infoElement.put("l",level+"");
         if(isUpgrade()){
             infoElement.put("upgrade","true");
         }else{
             infoElement.put("upgrade","false");
         }
+        if(transformationOn){
+            infoElement.put("upgradeTime",upgradeMonths-buffer+"");
+        }else{
+            infoElement.put("upgradeTime",-1+"");
+        }
         element = new CentralElement(loader,new TextureRegion(new Texture("MAP/WICBAtlas.png")).split(100,30)[0],this,infoElement,cell,id,cell.getCellID());
         return element;
     }
     public void activateUpgrade(){
-        level+=1;
-        extractionMatter*=Constants.levelUpObj;
-        extractionMatter*=Constants.levelUpObj;
-        researchPoints*=Constants.levelUpObj;
-        transformationMatter*=Constants.levelUpObj;
+        transformation = transformationMatter;
+        transformationMatter =transformationMatter -(Constants.UpProZ * ((level+1) * Constants.levelUpObjRes));
+        System.out.println("transformationMatter - "+transformationMatter);
+        transformationOn = true;
+        buffer = 0;
+        lastMonth = Integer.parseInt(infoCountry.getInfoCountry(-1,"month"));
+        infoCountry.putInfoCountryPlus(1, "energy", -(Constants.UpgEnergyZ * ((level+1) * Constants.levelUpObjRes)) + "");
+        infoCountry.putInfoCountryPlus(1, "matter", -(Constants.UpgMaterZ * ((level+1) * Constants.levelUpObjRes)) + "");
+        // Обновляем информацию
+        info.put("e",extractionEnergy+"");
+        info.put("m",extractionMatter+"");
+        info.put("r",researchPoints+"");
+        info.put("t",transformationMatter+"");
+        //
     }
     @Override
     public void activate(int num){ // Если апгрейд
         if(num == 1){
+            if(isUpgrade())
+                // Временно
             activateUpgrade();
         }
     }
-    private boolean isUpgrade(){
-        if(infoCountry.>(Constants.UpgEnergyZ*(level+1)*Constants.levelUpObjRes)){
-            if(>(Constants.UpgMaterZ*(level+1)*Constants.levelUpObjRes)){
-                if(>(Constants.UpProZ*(level+1)*Constants.levelUpObjRes)){
+     public boolean isUpgrade(){
+        if(Float.parseFloat(infoCountry.getInfoCountry(1,"energy"))>(Constants.UpgEnergyZ*((level+1)*Constants.levelUpObjRes))){
+            if(Float.parseFloat(infoCountry.getInfoCountry(1,"matter"))>(Constants.UpgMaterZ*((level+1)*Constants.levelUpObjRes))){
+                if(Float.parseFloat(infoCountry.getInfoCountry(1,"transformation"))>(Constants.UpProZ*((level+1)*Constants.levelUpObjRes))){
+                    if(!transformationOn)
                     return true;
-                };
+                }
             }
-        };
+        }
         return false;
     }
     @Override
@@ -102,10 +127,36 @@ public class CentralSystem extends Object {
         central.setBounds(cell.x,cell.y,cell.width,cell.heigh);
         central.draw(bacth);
     }
-
+public void upgradeFinish(){}
     @Override
     public void update() {
         super.update();
+        info.put("e",extractionEnergy+"");
+        info.put("m",extractionMatter+"");
+        info.put("r",researchPoints+"");
+        info.put("t",transformationMatter+"");
+        if(transformationOn){
+            if(buffer>upgradeMonths*(level+1)){
+                buffer = 0;
+                transformationOn = false;
+                transformationMatter = transformation;
+                upgradeFinish();
+                    level += 1;
+                    extractionEnergy *= Constants.levelUpObj;
+                    extractionMatter *= Constants.levelUpObj;
+                    researchPoints *= Constants.levelUpObj;
+                    transformationMatter *= Constants.levelUpObj;
+                    try {
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+            }else{
+                if(lastMonth!=Integer.parseInt(infoCountry.getInfoCountry(-1,"month"))){
+                    buffer++;
+                    lastMonth = Integer.parseInt(infoCountry.getInfoCountry(-1,"month"));
+                }
+            }
+        }
     }
     @Override
     public void dispose() { // Уничтожает особые ресырсы именно данного объект

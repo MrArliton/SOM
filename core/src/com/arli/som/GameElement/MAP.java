@@ -131,6 +131,28 @@ public class MAP { // Карта
         }
         return false;
     }
+    public Map<String,String> getEffects(int country){
+        Map<String,String> effects = new HashMap<String, String>();
+        effects.put("m","0");
+        effects.put("e","0");
+        effects.put("t","0");
+        effects.put("r","0");
+        for(int i = 0;i<cells.size;i++){
+            if(cells.get(i).getIdControll()==country){
+                if(cells.get(i).obj){
+                    try{
+                        effects.put("m",Float.parseFloat(effects.get("m"))+Float.parseFloat(cells.get(i).getObject().info.get("m"))+"");
+                        effects.put("e",Float.parseFloat(effects.get("e"))+Float.parseFloat(cells.get(i).getObject().info.get("e"))+"");
+                        effects.put("t",Float.parseFloat(effects.get("t"))+Float.parseFloat(cells.get(i).getObject().info.get("t"))+"");
+                        effects.put("r",Integer.parseInt(effects.get("r")+Integer.parseInt(cells.get(i).getObject().info.get("r")))+"");
+                    }catch(NullPointerException exc){}
+                }
+            }
+        }
+
+
+        return effects;
+    }
     public void generateCells(String map){ // генерируем карту
         FileHandle file = Gdx.files.internal("Maps/"+map);
         map = file.readString();
@@ -153,19 +175,22 @@ public class MAP { // Карта
 
         }
         // debug
-        cells.get(5).setIdControll(1);
-        Map<String,String> options = new HashMap<String, String>();
-        options.put("idControll",""+1);
-        options.put("health",""+10);
-        options.put("shield",""+10);
-        options.put("regenerationHealth",""+10);
-       options.put("extractionEnergy",""+5);
-        options.put("extractionMatter",""+10);
-        options.put("researchPoints",""+2);
-        options.put("transformationMatter",""+2);
-        options.put("level",""+0);
-        options.put("sprite","Objects/central.png");
-        cells.get(5).setObject(new CentralSystem(options,cells.get(5),loaderObjectsT,infoCountry));
+        if(Constants.debug) {
+            cells.get(5).setIdControll(1);
+            Map<String, String> options = new HashMap<String, String>();
+            options.put("idControll", "" + 1);
+            options.put("health", "" + 10);
+            options.put("shield", "" + 10);
+            options.put("regenerationHealth", "" + 10);
+            options.put("extractionEnergy", "" + 5);
+            options.put("extractionMatter", "" + 5);
+            options.put("researchPoints", "" + 1);
+            options.put("transformationMatter", "" + 3);
+            options.put("level", "" + 0);
+            options.put("month", "" + 1);
+            options.put("sprite", "Objects/central.png");
+            cells.get(5).setObject(new CentralSystem(options, cells.get(5), loaderObjectsT, infoCountry));
+        }
         //
     }
     public void render(SpriteBatch batch){

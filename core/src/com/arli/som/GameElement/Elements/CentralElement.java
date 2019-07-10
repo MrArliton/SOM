@@ -36,6 +36,7 @@ public class CentralElement extends Element {
     public CentralElement(ObjectsLoader loader, TextureRegion[] buttonT, CentralSystem system, Map<String,String> information, Cell cell, int id,int cellid) {
         this.buttonT =buttonT;
         this.loader = loader;
+        view = true;
         this.cell =cell;
         this.system = system;
         this.info = information;
@@ -55,7 +56,11 @@ public class CentralElement extends Element {
         style.up = up;
         Drawable down = new SpriteDrawable(new Sprite(buttonT[0]));
         style.down = down;
-        upgrade = new TextButton(language.getText("upgrade",1),style);
+        if(info.get("upgradeTime").equalsIgnoreCase("-1")) {
+            upgrade = new TextButton(language.getText("upgrade", 1), style);
+        }else{
+            upgrade = new TextButton(language.getText("upgradeTime",1)+" -"+(Integer.parseInt(info.get("upgradeTime"))*Integer.parseInt(info.get("l"))), style);
+        }
         upgrade.setWidth(Constants.cellBW-5); // Улучшение
         upgrade.setHeight(Constants.cellBH-2);
         upgrade.setPosition(cell.getCentr()[0]+(Constants.cellInfoW-Constants.cellBW)/2+50,cell.getCentr()[1]+30);
@@ -128,14 +133,19 @@ public class CentralElement extends Element {
         texter.setColor(Constants.color);
         texter.getData().setScale(Constants.WHFont+0.2f);
         texter.draw(batch,language.getText("central",1),x+Constants.xR+(Constants.cellInfoW/2),y+Constants.hR+heigh);
+
+        texter.getData().setScale(Constants.WHFont);
+        texter.draw(batch,language.getText("Level "+info.get("l"),1),x+Constants.xR+(Constants.cellInfoW/2),y+Constants.hR+heigh-20);
     }
 
     @Override
     public void update() {
         super.update();
-        if(upgradeOn) {
+        if(system.isUpgrade()) {
+            upgradeOn = true;
             upgrade.setColor(Color.WHITE);
         }else{
+            upgradeOn = false;
             upgrade.setColor(Color.GRAY);
         }
     }
@@ -146,6 +156,7 @@ public class CentralElement extends Element {
         fone.getTexture().dispose();
         buttonT[0].getTexture().dispose();
         texter.dispose();
+        view = false;
     }
 
     @Override

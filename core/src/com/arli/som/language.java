@@ -34,6 +34,13 @@ public class language {
                     otvet = "Столица";
                 }
 
+            }else  if (cod.equalsIgnoreCase("upgradeTime")) {
+                if(lang == 0){
+
+                }else if(lang == 1){
+                    otvet = "Улучшается";
+                }
+
             }
 
         }else if(comp == 2){

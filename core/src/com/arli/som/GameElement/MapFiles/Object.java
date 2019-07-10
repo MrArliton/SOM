@@ -10,8 +10,9 @@ import java.util.Map;
 public abstract class Object { // Данный класс содержит основу для объектов
     int idObject;
    public Element element;
-   InfoCountry infoRes;
+   public InfoCountry infoRes;
     Map<String,String> effects = new HashMap<String, String>();
+   public Map<String,String> info = new HashMap<String, String>();
    public Element getElement(int id){return element;}
     public void render(SpriteBatch batch){}
     public void update(){}

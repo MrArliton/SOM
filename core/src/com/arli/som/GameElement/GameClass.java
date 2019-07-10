@@ -22,13 +22,23 @@ public class GameClass implements Screen {
      InfoCountry infoCountry; // Тут информация о старанах их ресурсах.
     Viewport view = new FitViewport(Constants.width,Constants.heigth);
     MapController MCont;
+    int day = 1;
+    int month = 1;
+    float buffer = 0;
     public GameClass(Map<String,String> options) { // Создаём основные части игры
         batch = new SpriteBatch();
         infoCountry = new InfoCountry();
+        infoCountry.addNewInfo(-1); // Общая информация
+        infoCountry.addNewInfo(1); // Информация о стране игрока
+            ///                 Сделать для разных игроков и  ботов                                             ///
+        infoCountry.putInfoCountry(1,"energy","15");
+        infoCountry.putInfoCountry(1,"matter","15");
+        infoCountry.putInfoCountry(1,"research","0");
+        infoCountry.putInfoCountry(1,"transformation","0");
         this.options = options;
         // Подключение основных систем
         map = new MAP(options.get("map"),infoCountry);
-        hud = new HUD(MCont);
+        hud = new HUD(MCont,infoCountry);
         MCont = new MapController(map); // Управляет картой
         // Система контроля
         input = new InputController(map,hud,MCont);
@@ -44,16 +54,43 @@ public class GameClass implements Screen {
         map.cameraMap.zoom = 1f-correct;
         // Переключение на систему управления игрой
         Gdx.input.setInputProcessor(new GestureDetector(input));
+
     }
     @Override
     public void show() {
+    }
+    private void update(float delta){
+        if(buffer<Constants.timeDayCycle){
+            buffer+=delta;
+        }else {
+            if (day + 1 < 30) {
+                day += 1;
+            } else {
+                day = 0;
+                month += 1;
+                activateMonthEffects();
+            }
+            buffer = 0;
+        }
+        // Используется для строительства
+        Map<String,String> effects = map.getEffects(1);
+        infoCountry.putInfoCountry(1, "transformation",effects.get("t"));
+
+        infoCountry.putInfoCountry(-1,"day",day+"");
+        infoCountry.putInfoCountry(-1,"month",month+"");
 
     }
-
+    public void activateMonthEffects(){
+           Map<String,String> effects = map.getEffects(1); // Для игрока
+            infoCountry.putInfoCountryPlus(1, "energy", effects.get("e"));
+            infoCountry.putInfoCountryPlus(1, "matter", effects.get("m"));
+            infoCountry.putInfoCountryPlus(1, "research", effects.get("r"));
+            infoCountry.putInfoCountry(1, "transformation",effects.get("t"));
+    }
     @Override
     public void render(float delta) {
         // update
-
+        update(delta);
         map.update(delta);
         hud.update(delta);
         // render
