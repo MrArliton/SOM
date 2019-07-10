@@ -31,8 +31,8 @@ public class GameClass implements Screen {
         infoCountry.addNewInfo(-1); // Общая информация
         infoCountry.addNewInfo(1); // Информация о стране игрока
             ///                 Сделать для разных игроков и  ботов                                             ///
-        infoCountry.putInfoCountry(1,"energy","15");
-        infoCountry.putInfoCountry(1,"matter","15");
+        infoCountry.putInfoCountry(1,"energy","0");
+        infoCountry.putInfoCountry(1,"matter","0");
         infoCountry.putInfoCountry(1,"research","0");
         infoCountry.putInfoCountry(1,"transformation","0");
         this.options = options;
@@ -60,6 +60,7 @@ public class GameClass implements Screen {
     public void show() {
     }
     private void update(float delta){
+        updateMonthEffects();
         if(buffer<Constants.timeDayCycle){
             buffer+=delta;
         }else {
@@ -79,6 +80,12 @@ public class GameClass implements Screen {
         infoCountry.putInfoCountry(-1,"day",day+"");
         infoCountry.putInfoCountry(-1,"month",month+"");
 
+    }
+    public void updateMonthEffects(){
+        Map<String,String> effects = map.getEffects(1); // Для игрока
+        infoCountry.putInfoCountry(1, "energyE", effects.get("e"));
+        infoCountry.putInfoCountry(1, "matterE", effects.get("m"));
+        infoCountry.putInfoCountry(1, "researchE", effects.get("r"));
     }
     public void activateMonthEffects(){
            Map<String,String> effects = map.getEffects(1); // Для игрока
