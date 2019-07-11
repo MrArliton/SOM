@@ -30,7 +30,6 @@ public class CellInformation extends Element {// Класс вызывается
     BitmapFont texter = new BitmapFont(Gdx.files.internal("myFont.fnt"));
     TextureRegion[] texture;
     Sprite fone;
-    float whT = 2f;
     @Override
     public void resourse(Map<String, String> res) {
         super.resourse(res);
@@ -85,6 +84,7 @@ public class CellInformation extends Element {// Класс вызывается
         fone.setColor(Color.WHITE);
         fone.draw(batch);
         if(buttonA){
+            texter.getData().setScale(Constants.BST);
             button.draw(batch,1f);
         }
         texter.setColor(Constants.color);

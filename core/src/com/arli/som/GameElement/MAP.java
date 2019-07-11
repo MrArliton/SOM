@@ -86,6 +86,15 @@ public class MAP { // Карта
             }
         return id;
     }
+    public int activateElement(Element element){ // Активирует элемент
+        int id = 0;
+        while (!notIdsElement(id)) {
+            id = (int) (Math.random() * 100);
+        }
+            elements.add(element);
+            ids.add(id);
+        return id;
+    }
     public Map<String,String> getInfoWindow(int id){
         for(int i = 0;i<elements.size;i++){
             try {
@@ -144,7 +153,7 @@ public class MAP { // Карта
                         effects.put("m",Float.parseFloat(effects.get("m"))+Float.parseFloat(cells.get(i).getObject().info.get("m"))+"");
                         effects.put("e",Float.parseFloat(effects.get("e"))+Float.parseFloat(cells.get(i).getObject().info.get("e"))+"");
                         effects.put("t",Float.parseFloat(effects.get("t"))+Float.parseFloat(cells.get(i).getObject().info.get("t"))+"");
-                        effects.put("r",Integer.parseInt(effects.get("r")+Integer.parseInt(cells.get(i).getObject().info.get("r")))+"");
+                        effects.put("r",Integer.parseInt(effects.get("r"))+Integer.parseInt(cells.get(i).getObject().info.get("r"))+"");
                     }catch(NullPointerException exc){}
                 }
             }
@@ -190,6 +199,9 @@ public class MAP { // Карта
             options.put("month", "" + 1);
             options.put("sprite", "Objects/central.png");
             cells.get(5).setObject(new CentralSystem(options, cells.get(5), loaderObjectsT, infoCountry));
+
+            cells.get(6).setIdControll(1);
+
         }
         //
     }

@@ -1,5 +1,7 @@
 package com.arli.som.GameElement;
 
+import com.arli.som.Constants;
+import com.arli.som.GameElement.Elements.WindowObjects;
 import com.arli.som.GameElement.MapFiles.Cell;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -8,6 +10,7 @@ import java.util.Map;
 public class MapController implements MapCon { // Управляет картой
 MAP map;
 int idInfoCell = -1;
+int idWindow = -1;
     public MapController(MAP map) {
         this.map = map;
     }
@@ -76,11 +79,14 @@ int idInfoCell = -1;
                         if(map.getInfoWindow(idInfoCell).get("buttonEffect").equalsIgnoreCase("upgrade")){ // Выполняем улучшение
                             map.getCell(Integer.parseInt(map.getInfoWindow(idInfoCell).get("cell"))).getObject().activate(1); // Активируем улучшение объекта
                         }else if(map.getInfoWindow(idInfoCell).get("buttonEffect").equalsIgnoreCase("build")){
-
+                            clearDefaultWindows();
+                            idWindow = map.activateElement(new WindowObjects(Constants.pathObjList));
                         }
                         clearDefaultWindows();
                     }
                 } catch (NumberFormatException exp){}
+            }else if(idWindow!=-1){ // Если активно окно
+
             }
             return true;
         }

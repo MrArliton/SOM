@@ -7,6 +7,9 @@ public class Constants {
    public static final int width = 720;
    public  static final int heigth = 1280;
    public static final boolean debug = true;
+   // Edit game
+   public static String pathObjList = "";
+
    // Not edit
     // Для объектов с улучшениями
  public static final float levelUpObj = 1.5f;
@@ -26,6 +29,8 @@ public class Constants {
     public static final int IconW = 50;
     public static final int IconH = 50;
     //
+
+    //
    public static final int cellDvigX = (int)(58/1.5); // Плюсовка
    public static final int cellDvigY = 2; // Деление
     public static final int cellW = (int)(75/1.5); // Плюсовка
@@ -38,11 +43,18 @@ public class Constants {
     public static final int cellBH = 30;
     public static final int resolutionWindowW = Gdx.app.getGraphics().getWidth();
     public static final int resolutionWindowH = Gdx.app.getGraphics().getHeight();
+    // WinBuld
+    public static final int xWB = 40;
+    public static final int yWB = 40;
+    public static final int hWB = 40;
+    public static final int wWB = 40;
+    //
     // CellWindow
     public static final Color  color = Color.BLACK;
     public static final int xR = 10; // Сдвиги текста
     public static final int hR = -10;
     public static final float WHFont = 0.4f;
+    public static final float BST = 0.8f;
     // Central Coordinates
     // Координаты иконок
     public static final int xIS = 50;
