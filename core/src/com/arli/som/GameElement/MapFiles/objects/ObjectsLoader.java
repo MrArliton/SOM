@@ -10,5 +10,10 @@ public class ObjectsLoader { // Хранит все ресурсы объект�
    public Sprite iconM = new Sprite(new Texture("All/IconM.png"));
    public Sprite iconE = new Sprite(new Texture("All/IconE.png"));
 
-    public void dispose(){}
+    public void dispose(){
+        iconR.getTexture().dispose();
+        iconP.getTexture().dispose();
+        iconM.getTexture().dispose();
+        iconE.getTexture().dispose();
+    }
 }

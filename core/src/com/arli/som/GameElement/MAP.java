@@ -91,6 +91,7 @@ public class MAP { // Карта
         while (!notIdsElement(id)) {
             id = (int) (Math.random() * 100);
         }
+            element.setId(id);
             elements.add(element);
             ids.add(id);
         return id;
@@ -112,6 +113,7 @@ public class MAP { // Карта
             if(Integer.parseInt(elements.get(i).getInfo().get("id"))==id){
                 elements.get(i).dispose();
                 elements.removeIndex(i);
+                ids.removeValue(id,true);
                 return true;
             }
         }
@@ -119,24 +121,29 @@ public class MAP { // Карта
     }
     public boolean clickWindow(int x,int y){ //Проверка было ли нажатие на одно из окон на карте
         for(int i = 0;i<elements.size;i++){
-            if(elements.get(i).getInfo().get("type").equalsIgnoreCase("window")) { // Если тип окно то
-                try {
-                    if (Integer.parseInt(elements.get(i).getInfo().get("x")) < x && Integer.parseInt(elements.get(i).getInfo().get("w")) + Integer.parseInt(elements.get(i).getInfo().get("x")) > x && Integer.parseInt(elements.get(i).getInfo().get("y")) < y && Integer.parseInt(elements.get(i).getInfo().get("h")) + Integer.parseInt(elements.get(i).getInfo().get("y")) > y) { // Проверяем условия
-                        if (elements.get(i).getInfo().containsKey("res")) {
-                            String[] b = elements.get(i).getInfo().get("res").split(",");
-                            for (String a : b) {
-                                if (a.equalsIgnoreCase("button")) {
-                                    buffer.clear();
-                                    buffer.put("button", +x + "," + y);
-                                    elements.get(i).resourse(buffer);
+            try {
+                if (elements.get(i).getInfo().get("type").equalsIgnoreCase("window")) { // Если тип окно то
+                    try {
+                        if (Integer.parseInt(elements.get(i).getInfo().get("x")) < x && Integer.parseInt(elements.get(i).getInfo().get("w")) + Integer.parseInt(elements.get(i).getInfo().get("x")) > x && Integer.parseInt(elements.get(i).getInfo().get("y")) < y && Integer.parseInt(elements.get(i).getInfo().get("h")) + Integer.parseInt(elements.get(i).getInfo().get("y")) > y) { // Проверяем условия
+                            if (elements.get(i).getInfo().containsKey("res")) {
+                                String[] b = elements.get(i).getInfo().get("res").split(",");
+                                for (String a : b) {
+                                    if (a.equalsIgnoreCase("button")) {
+                                        buffer.clear();
+                                        buffer.put("button", +x + "," + y);
+                                        elements.get(i).resourse(buffer);
+                                    }
                                 }
                             }
+                            return true;
                         }
-                        return true;
+                    } catch (NumberFormatException exp) {
                     }
-                }catch (NumberFormatException exp){
                 }
-                }
+            }catch(NullPointerException exception){
+                if(Constants.debug)
+                exception.printStackTrace();
+            }
         }
         return false;
     }

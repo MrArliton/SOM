@@ -53,9 +53,10 @@ public class CentralSystem extends Object {
         transformationMatter = Integer.parseInt(options.get("transformationMatter"));
         level = Integer.parseInt(options.get("level"));
         upgradeMonths = Integer.parseInt(options.get("month"));
-        central = new Sprite(new Texture("Map/"+options.get("sprite")));
+        central = new Sprite(new Texture("MAP/"+options.get("sprite")));
         infoRes = infoCountry;
         transformation = transformationMatter;
+        info.put("object","central");
     }
     @Override
     public Element getElement(int id){

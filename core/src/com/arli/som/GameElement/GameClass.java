@@ -39,7 +39,7 @@ public class GameClass implements Screen {
         // Подключение основных систем
         map = new MAP(options.get("map"),infoCountry);
         hud = new HUD(MCont,infoCountry);
-        MCont = new MapController(map); // Управляет картой
+        MCont = new MapController(map,hud); // Управляет картой
         // Система контроля
         input = new InputController(map,hud,MCont);
         // Создаём коректировку для нужных разрешений
@@ -61,6 +61,7 @@ public class GameClass implements Screen {
     }
     private void update(float delta){
         updateMonthEffects();
+        MCont.update(delta);
         if(buffer<Constants.timeDayCycle){
             buffer+=delta;
         }else {

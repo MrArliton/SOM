@@ -1,22 +1,30 @@
 package com.arli.som.GameElement;
 
 import com.arli.som.Constants;
-import com.arli.som.GameElement.Elements.WindowObjects;
+import com.arli.som.GameElement.Elements.Element;
+import com.arli.som.GameElement.Elements.WindowBuild;
 import com.arli.som.GameElement.MapFiles.Cell;
+import com.arli.som.GameElement.MapFiles.Object;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.Map;
 
 public class MapController implements MapCon { // Управляет картой
 MAP map;
+HUD hud;
 int idInfoCell = -1;
 int idWindow = -1;
-    public MapController(MAP map) {
+Array<Element> bufferWin = new Array<Element>();
+    public MapController(MAP map,HUD hud)
+    {
         this.map = map;
+        this.hud = hud;
     }
 
     @Override
-    public boolean createObject(int idCell, Map<String, String> option) {
+    public boolean createObject(int idCell, Object obj) {
+
         return false;
     }
 
@@ -79,8 +87,7 @@ int idWindow = -1;
                         if(map.getInfoWindow(idInfoCell).get("buttonEffect").equalsIgnoreCase("upgrade")){ // Выполняем улучшение
                             map.getCell(Integer.parseInt(map.getInfoWindow(idInfoCell).get("cell"))).getObject().activate(1); // Активируем улучшение объекта
                         }else if(map.getInfoWindow(idInfoCell).get("buttonEffect").equalsIgnoreCase("build")){
-                            clearDefaultWindows();
-                            idWindow = map.activateElement(new WindowObjects(Constants.pathObjList));
+                          createWindow(idInfoCell,new WindowBuild(getCell(idInfoCell),map.infoCountry,this)); // пЕРЕ
                         }
                         clearDefaultWindows();
                     }
@@ -106,7 +113,27 @@ int idWindow = -1;
     }
 
     @Override
-    public void createWindowObject(int idCell) {
+    public void createWindow(int idCell,Element element) {
+                if(idWindow == -1){
+                    idWindow = hud.activateElement(element);
+                }else{
+                    bufferWin.add(element);
+                }
+    }
 
+    @Override
+    public void removeElementWindow() {
+        hud.removeElement(idWindow);
+        idWindow = -1;
+    }
+
+    @Override
+    public void update(float delta) {
+        if(bufferWin.size>0){
+            if(idWindow==-1){
+                idWindow = hud.activateElement(bufferWin.pop());
+
+            }
+        }
     }
 }

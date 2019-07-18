@@ -48,6 +48,8 @@ public class Constants {
     public static final int yWB = 40;
     public static final int hWB = 40;
     public static final int wWB = 40;
+    public static final int wSP = 600;
+    public static final int hSP = 1000;
     //
     // CellWindow
     public static final Color  color = Color.BLACK;

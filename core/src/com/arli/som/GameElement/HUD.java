@@ -1,6 +1,7 @@
 package com.arli.som.GameElement;
 
 import com.arli.som.Constants;
+import com.arli.som.GameElement.Elements.Element;
 import com.arli.som.language;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -22,6 +24,8 @@ public class HUD {
     Sprite iconT= new Sprite(new Texture("All/IconP.png"));
     Sprite iconR= new Sprite(new Texture("All/IconR.png"));
     BitmapFont texter = new BitmapFont(Gdx.files.internal("myFont.fnt"));
+    Array<Element> elements = new Array<Element>();
+    Array<Integer> ids = new Array<Integer>();
     InfoCountry infoCountry;
     public HUD(MapCon conM,InfoCountry infoCountry) {
         this.infoCountry = infoCountry;
@@ -36,6 +40,38 @@ public class HUD {
             otvet+=" ";
         }
         return otvet;
+    }
+
+    private boolean notIdsElement(int id){
+        for(int i = 0;i<ids.size;i++){
+            if(ids.get(i)==id){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    public int activateElement(Element element){
+        int id = 0;
+        while (!notIdsElement(id)) {
+            id = (int) (Math.random() * 100);
+        }
+        element.setId(id);
+        elements.add(element);
+        ids.add(id);
+        return id;
+    }
+    public boolean removeElement(int id){
+        for(int i = 0;i<elements.size;i++){
+            if(Integer.parseInt(elements.get(i).getInfo().get("id"))==id){
+                elements.get(i).dispose();
+                elements.removeIndex(i);
+                ids.removeValue(id,true);
+                return true;
+            }
+        }
+        return false;
     }
     public void render(SpriteBatch batch){
         text.setBounds(20,Constants.heigth-60,680,60);
@@ -90,5 +126,8 @@ public class HUD {
         iconM.getTexture().dispose();
         iconT.getTexture().dispose();
         iconR.getTexture().dispose();
+        for(int i = 0;i<elements.size;i++){
+            elements.get(i).dispose();
+        }
     }
 }

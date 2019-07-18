@@ -31,6 +31,7 @@ public class Cell { // Ячейка
     public boolean obj = false;
     boolean illumination = false;
     Element element;
+    boolean arme = false;
     Array<Integer> effects = new Array<Integer>(); // Номер набора эфектов
     public Cell(int cellID,int x,int y,int width,int heigh,Sprite texture,Sprite textureDown,TextureRegion[] colors){
         this.cellID = cellID;
@@ -48,7 +49,9 @@ public class Cell { // Ячейка
         this.colors = colors;
         color = new Sprite(colors[0]);
     }
-
+    public void setArme(boolean b){
+        arme = b;
+    }
     public void setCellInfo(String info){
         this.info = info;
     }
