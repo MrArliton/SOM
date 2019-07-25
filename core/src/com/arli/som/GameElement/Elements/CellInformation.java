@@ -47,9 +47,17 @@ public class CellInformation extends Element {// Класс вызывается
         info.put("type","window");
         info.put("level","1");
         info.put("buttonEffect","build");
+        info.put("cellid",cell.getCellID()+"");
         this.cell = cell;
         texture = buttonD;
         this.fone = fone;
+        x = cell.getCentr()[0];
+        y = cell.getCentr()[1];
+        width = Constants.cellInfoW;
+        heigh = Constants.cellInfoH;
+        if(x+width>Constants.width){
+            x = cell.getCentr()[0]-Constants.cellInfoW;
+        }
         if(cell.getIdControll()==1){ // Является ячейкой нашей територии значит создаём кнопку// стройки
             info.put("res","button");
             buttonA = true;
@@ -65,12 +73,8 @@ public class CellInformation extends Element {// Класс вызывается
             info.put("press","0");
             button.setWidth(Constants.cellBW+50); // Регулировка
             button.setHeight(Constants.cellBH);
-            button.setPosition(cell.getCentr()[0]+(Constants.cellInfoW-Constants.cellBW)/2-25,cell.getCentr()[1]+10); // + 50 Регулировка
+            button.setPosition(x+(Constants.cellInfoW-Constants.cellBW)/2-25,y+10); // + 50 Регулировка
         }
-        x = cell.getCentr()[0];
-        y = cell.getCentr()[1];
-        width = Constants.cellInfoW;
-        heigh = Constants.cellInfoH;
         // Создаём координаты для проверки на нажатие по окну
         info.put("x",""+x);
         info.put("y",""+y);
@@ -80,7 +84,7 @@ public class CellInformation extends Element {// Класс вызывается
     @Override
     public void render(SpriteBatch batch) {
         super.render(batch);
-        fone.setBounds(cell.getCentr()[0],cell.getCentr()[1],Constants.cellInfoW,Constants.cellInfoH);
+        fone.setBounds(x,y,Constants.cellInfoW,Constants.cellInfoH);
         fone.setColor(Color.WHITE);
         fone.draw(batch);
         if(buttonA){

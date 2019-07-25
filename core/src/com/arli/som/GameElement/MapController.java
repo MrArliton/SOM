@@ -83,16 +83,18 @@ Array<Element> bufferWin = new Array<Element>();
         }else{ // Если клик прошёл по карте
             if(idInfoCell!=-1) { // Если активно окно то проверим его
                 try {
+                    System.out.println(idInfoCell);
                     if (Integer.parseInt(map.getInfoWindow(idInfoCell).get("press")) == 1) { // Активируем окно строительства для данной клетки
                         if(map.getInfoWindow(idInfoCell).get("buttonEffect").equalsIgnoreCase("upgrade")){ // Выполняем улучшение
                             map.getCell(Integer.parseInt(map.getInfoWindow(idInfoCell).get("cell"))).getObject().activate(1); // Активируем улучшение объекта
                         }else if(map.getInfoWindow(idInfoCell).get("buttonEffect").equalsIgnoreCase("build")){
-                          createWindow(idInfoCell,new WindowBuild(getCell(idInfoCell),map.infoCountry,this)); // пЕРЕ
-                        }
+                                createWindow(Integer.parseInt(map.getInfoWindow(idInfoCell).get("cellid")), new WindowBuild(map.getCell(Integer.parseInt(map.getInfoWindow(idInfoCell).get("cellid"))), map.infoCountry, this)); // пЕРЕ
+                            }
                         clearDefaultWindows();
                     }
                 } catch (NumberFormatException exp){}
-            }else if(idWindow!=-1){ // Если активно окно
+            }
+            if(idWindow!=-1){ // Если активно окно
 
             }
             return true;

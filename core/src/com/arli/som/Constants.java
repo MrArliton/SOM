@@ -44,12 +44,19 @@ public class Constants {
     public static final int resolutionWindowW = Gdx.app.getGraphics().getWidth();
     public static final int resolutionWindowH = Gdx.app.getGraphics().getHeight();
     // WinBuld
-    public static final int xWB = 40;
-    public static final int yWB = 40;
-    public static final int hWB = 40;
-    public static final int wWB = 40;
+    public static final int yALL = Constants.hSP-40-Constants.hWB;
+    public static final int xAB = 112;
+    public static final int xSB = 184+117;
+    public static final int xRB = 184+117+190;
+    public static final int xExitWB = 660;
+    public static final int yExitWB = 1135;
+    public static final int wExitWB = 50;
+    public static final int hExitWB = 50;
+    public static final int hWB = 117;
+    public static final int wWB = 117;
     public static final int wSP = 600;
     public static final int hSP = 1000;
+
     //
     // CellWindow
     public static final Color  color = Color.BLACK;

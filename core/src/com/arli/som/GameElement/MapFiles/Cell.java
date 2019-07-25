@@ -142,4 +142,8 @@ public class Cell { // Ячейка
             myObj.render(batch);
         }
     }
+    @Override
+    public String toString(){
+        return "id:"+cellID;
+    }
 }

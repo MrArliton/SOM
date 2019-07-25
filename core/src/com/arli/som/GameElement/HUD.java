@@ -14,6 +14,9 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class HUD {
     OrthographicCamera cameraHUD;
     public Viewport view = new StretchViewport(Constants.width, Constants.heigth);
@@ -103,13 +106,37 @@ public class HUD {
         texter.getData().setScale(0.5f);
         texter.draw(batch,language.getText("Month",1)+"-"+infoCountry.getInfoCountry(-1,"month"),Constants.IconW+4*Constants.xIconZdvig-10,Constants.heigth-Constants.yIconZdvig+38);
         texter.draw(batch,language.getText("Day", 1)+"-"+infoCountry.getInfoCountry(-1,"day"),Constants.IconW+4*Constants.xIconZdvig-10,Constants.heigth-Constants.yIconZdvig+18);
+        // elements
+        for(int i = 0;i<elements.size;i++){
+            elements.get(i).render(batch);
+        }
     }
 
 
     public void update(float delta){
-
+        // elements
+        for(int i = 0;i<elements.size;i++){
+            elements.get(i).update();
+        }
     }
     public boolean clickMe(int x,int y){
+        // elements
+        if(x>20&&y>Constants.heigth-60&&x<680&&y<Constants.heigth){return true;}else{
+            for(int i = 0;i<elements.size;i++){
+                Map<String,String> str = new HashMap<String, String>();
+                str.put("button",x+","+y);
+                elements.get(i).resourse(str);
+            }
+        }
+            for (int i = 0; i < elements.size; i++) {
+                int xb = Integer.parseInt(elements.get(i).getInfo().get("x"));
+                int yb = Integer.parseInt(elements.get(i).getInfo().get("y"));
+                int wb = Integer.parseInt(elements.get(i).getInfo().get("w"));
+                int hb = Integer.parseInt(elements.get(i).getInfo().get("h"));
+                if (x > xb && x < wb + xb && y > yb && y < hb + yb) {
+                    return true;
+                }
+            }
         return false;
     }
     public void editPositionMap(){ // Действия при сдвиге карты

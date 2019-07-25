@@ -15,7 +15,7 @@ public class winBuildElement { // Элемент страницы окна ст�
     int width;
     int height;
     Sprite fone = new Sprite(new Texture("")); // Текстура
-    Sprite iconObject ; // Обявляется исходя из информации о объекте
+    Sprite iconObject; // Обявляется исходя из информации о объекте
     BitmapFont texter = new BitmapFont(Gdx.files.internal("myFont.fnt"));
     String name;
     String information;
@@ -60,8 +60,9 @@ public class winBuildElement { // Элемент страницы окна ст�
     public int getIdCreateObject(){ // Выдаёт id объекта для его создания
         return -1;
     }
-    public void dispose(){
+    public void dispose() {
         fone.getTexture().dispose();
         texter.dispose();
+        iconObject.getTexture().dispose();
     }
 }

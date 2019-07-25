@@ -13,6 +13,8 @@ public class InputController implements GestureDetector.GestureListener { // И�
      MAP map;
      HUD hud;
      MapCon mapCon;
+    Vector3 hudXY =  new Vector3(0,0,0);
+    Vector3 mapXY = new Vector3(0,0,0);
      boolean onClick = true;
      public InputController(MAP map, HUD hud, MapCon con){
          this.map = map;
@@ -31,16 +33,15 @@ public class InputController implements GestureDetector.GestureListener { // И�
     public boolean tap(float x, float y, int count, int button) { // Функция клика
          if(onClick){ // Активируем клик
              // Распределяем по важности
-            // y = Math.abs(y-Constants.heigth);
-             Vector3 hud = new Vector3(x,y,0);
-             Vector3 map = new Vector3(x,y,0);
-             this.hud.view.unproject(hud);
-             this.map.view.unproject(map);
-             System.out.println("Click x:"+map.x+" y:"+map.y);
+             hudXY.set(x,y,0);
+             mapXY.set(x,y,0);
+             this.hud.view.unproject(hudXY);
+             this.map.view.unproject(mapXY);
+             System.out.println("Click x:"+mapXY.x+" y:"+mapXY.y);
              //HUD
-            if(!this.hud.clickMe((int)hud.x,(int)hud.y)){
+            if(!this.hud.clickMe((int)hudXY.x,(int)hudXY.y)){
              //MAP
-                mapCon.clickMap((int)map.x,(int)map.y); // Определяем нажатие относительно экрана
+                mapCon.clickMap((int)mapXY.x,(int)mapXY.y); // Определяем нажатие относительно экрана
             }
 
 
@@ -53,7 +54,6 @@ public class InputController implements GestureDetector.GestureListener { // И�
         onClick = false;
         return false;
     }
-
     @Override
     public boolean fling(float velocityX, float velocityY, int button) {
         return false;
@@ -63,13 +63,17 @@ public class InputController implements GestureDetector.GestureListener { // И�
     public boolean pan(float x, float y, float deltaX, float deltaY) {
          mapCon.clearDefaultWindows();
          onClick = false;
-        float scaleX = map.view.getWorldWidth() / (float)map.view.getScreenWidth();
-        float scaleY = map.view.getWorldHeight() / (float)map.view.getScreenHeight();
-        map.cameraMap.translate((int)(-deltaX * scaleX), 0);
-        map.cameraMap.translate(0, (int)(deltaY * scaleY));
-        map.cameraMap.update();
-        hud.editPositionMap();
-        return false;
+          hudXY.set(x,y,0);
+         hud.cameraHUD.unproject(hudXY);
+         if(!hud.clickMe((int)hudXY.x,(int)hudXY.y)) {
+             float scaleX = map.view.getWorldWidth() / (float) map.view.getScreenWidth();
+             float scaleY = map.view.getWorldHeight() / (float) map.view.getScreenHeight();
+             map.cameraMap.translate((int) (-deltaX * scaleX), 0);
+             map.cameraMap.translate(0, (int) (deltaY * scaleY));
+             map.cameraMap.update();
+             hud.editPositionMap();
+         }
+         return false;
     }
 
     @Override
