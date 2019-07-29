@@ -8,7 +8,7 @@ public class Constants {
    public  static final int heigth = 1280;
    public static final boolean debug = true;
    // Edit game
-   public static String pathObjList = "";
+   public static String pathObjList = "map1WObj.txt";
 
    // Not edit
     // Для объектов с улучшениями
@@ -56,7 +56,14 @@ public class Constants {
     public static final int wWB = 117;
     public static final int wSP = 600;
     public static final int hSP = 1000;
-
+    public static final int yMinusE = 200;
+    public static final int xPlusE = 25;
+    public static final int wPlusE = 550;
+    public static final int hPlusE = 100;
+    public static final int xMinusE = 10;
+    public static final float scaleTextE = 0.7f;
+    public static final int iconW = 20;
+    public static final int iconH = 20;
     //
     // CellWindow
     public static final Color  color = Color.BLACK;

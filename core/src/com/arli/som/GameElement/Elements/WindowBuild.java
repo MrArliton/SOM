@@ -6,11 +6,15 @@ import com.arli.som.GameElement.Elements.dop.winBuildElement;
 import com.arli.som.GameElement.InfoCountry;
 import com.arli.som.GameElement.MapCon;
 import com.arli.som.GameElement.MapFiles.Cell;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
+
+import java.util.HashMap;
 import java.util.Map;
 
 public class WindowBuild extends Element {
@@ -34,6 +38,10 @@ public class WindowBuild extends Element {
     int y = (Constants.heigth-Constants.hSP)/2;
     int h = Constants.hSP;
     int w = Constants.wSP;
+    // Переменные для работы создания объектов
+
+
+    //
     public WindowBuild(Cell cell, InfoCountry infoC, MapCon con) {
         this.cell = cell;
         this.infoC = infoC;
@@ -54,6 +62,47 @@ public class WindowBuild extends Element {
         SB.setBounds(Constants.xSB,y+Constants.yALL,Constants.wWB,Constants.hWB);
         RB.setBounds(Constants.xRB,y+Constants.yALL,Constants.wWB,Constants.hWB);
         exit.setBounds(Constants.xExitWB,Constants.yExitWB,Constants.wExitWB,Constants.hExitWB);
+        createObjects(Constants.pathObjList);
+    }
+    public void createObjects(String path){ // Создаёт объекты для строительства
+        FileHandle file = Gdx.files.internal("Maps/"+path);
+        String[] buffer = file.readString().split(";");
+        String[] buffer1;
+        int a = 0;
+        int s = 0;
+        int p = 0;
+        Map<String,String> opt = new HashMap<String, String>();
+        for(int i = 0;i<buffer.length;i++){ // Цикл передачи строк
+            buffer1 = buffer[i].split(",");
+            opt.put("icon",buffer1[1]);
+            opt.put("name",buffer1[2]);
+            opt.put("info",buffer1[3]);
+            opt.put("pe",buffer1[4]);
+            opt.put("pm",buffer1[5]);
+             opt.put("pt",buffer1[6]);
+             opt.put("pr",buffer1[7]);
+            opt.put("ce",buffer1[8]);
+           opt.put("cm",buffer1[9]);
+           opt.put("ct",buffer1[10]);
+            opt.put("cr",buffer1[11]);
+            opt.put("x",x+Constants.xPlusE+"");
+            opt.put("w",Constants.wPlusE+"");
+            opt.put("h",Constants.hPlusE+"");
+            if(buffer1[0].equalsIgnoreCase("a")){
+                opt.put("y",h-Constants.yMinusE-(Constants.xMinusE+Constants.hPlusE)*a+"");
+                elementsAttack.add(new winBuildElement(i,opt));
+                a++;
+            }else  if(buffer1[0].equalsIgnoreCase("s")){
+                opt.put("y",h-Constants.yMinusE-(Constants.xMinusE+Constants.hPlusE)*s+"");
+                elementsShield.add(new winBuildElement(i,opt));
+                s++;
+            }else  if(buffer1[0].equalsIgnoreCase("p")){
+                opt.put("y",h-Constants.yMinusE-(Constants.xMinusE+Constants.hPlusE)*p+"");
+                elementsResourse.add(new winBuildElement(i,opt));
+                p++;
+            }
+            opt.clear();
+        }
     }
     public void buildObject(int id){
 
@@ -88,9 +137,18 @@ public class WindowBuild extends Element {
         RB.draw(batch);
         if(list == 1){
             fD1.draw(batch);
+            for(winBuildElement element:elementsAttack){
+                element.render(batch);
+            }
         }else if(list == 2){
             fD2.draw(batch);
+            for(winBuildElement element:elementsShield){
+                element.render(batch);
+            }
         }else if(list == 3){
+            for(winBuildElement element:elementsResourse){
+                element.render(batch);
+            }
             fD3.draw(batch);
         }
     exit.draw(batch);

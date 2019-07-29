@@ -59,7 +59,7 @@ public class CentralElement extends Element {
         if(info.get("upgradeTime").equalsIgnoreCase("-1")) {
             upgrade = new TextButton(language.getText("upgrade", 1), style);
         }else{
-            upgrade = new TextButton(language.getText("upgradeTime",1)+"-"+(Integer.parseInt(info.get("upgradeTime"))*Integer.parseInt(info.get("l"))), style);
+            upgrade = new TextButton(language.getText("upgradeTime",1)+"-"+(Integer.parseInt(info.get("upgradeTime"))*Integer.parseInt(info.get("l"))+1), style);
         }
         upgrade.setWidth(Constants.cellBW-5); // Улучшение
         upgrade.setHeight(Constants.cellBH-2);
